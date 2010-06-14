@@ -23,15 +23,18 @@ echo "  ,,  ,,"
 echo $reset
 
 # get the status
-addedFiles=$(git status --porcelain | grep 'M  ' | awk '{ print $2 }')
-updatedFiles=$(git status --porcelain | grep ' M ' | awk '{ print $2 }')
-untrackedFiles=$(git status --porcelain | grep '??' | awk '{ print $2 }')
+# addedFiles=$(git status --porcelain | grep 'A  ' | awk '{ print $2 }')
+updatedFiles=$(git status --porcelain | grep '[M]' | awk '{ print $2 }')
+untrackedFiles=$(git status --porcelain | grep '?? ' | awk '{ print $2 }')
+
+echo "untracked"
+echo $untrackedFiles
 
 # Listing the files already added
-echo "Added files:"$green
-for x in $addedFiles; do
-    echo "    "$x
-done
+# echo "Added files:"$green
+# for x in $addedFiles; do
+#     echo "    "$x
+# done
 
 echo $reset
 
