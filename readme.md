@@ -32,7 +32,7 @@ Untracked files:
     2 readme.txt
     3 suntory.c
     
-You can use the numbers next to add the files to the commit.
+You can use the numbers to add the files to the commit.
 
 For example
 
