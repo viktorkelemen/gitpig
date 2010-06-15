@@ -11,7 +11,7 @@ Git-pig is a collection of utility scripts for Git.
 Gitadd
 ------
 
-Gitadd helps you adding files to the commit.
+Gitadd helps you add files to a commit.
 
 Picture this; you just created three new files in your repo folder.
 
