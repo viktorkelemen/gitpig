@@ -1,10 +1,7 @@
 <pre>
  ^..^
 ( oo )  )~
-  ,,  ,,
-</pre>
-
-------------------
+  ,,  ,,</pre>
 Git-pig
 =======
 
@@ -37,5 +34,5 @@ You can use the numbers to add the files to the commit.
 For example
 
     gitadd.sh 2 3
-will add the readme.txt and the suntory.c to the commit. Yes.
+will add the readme.txt and the suntory.c to the commit.
 
