@@ -27,52 +27,52 @@ echo $reset
 updatedFiles=$(git status --porcelain | grep '[M]' | awk '{ print $2 }')
 untrackedFiles=$(git status --porcelain | grep '?? ' | awk '{ print $2 }')
 
-echo "untracked"
-echo $untrackedFiles
+if [ "$*" ]
+then
+    # there are parameters, we're preparing the git-add
+    
+    # Creating an array
+    for x in $updatedFiles; do
+        fileArray=("${fileArray[@]}" $x)
+    done
 
-# Listing the files already added
-# echo "Added files:"$green
-# for x in $addedFiles; do
-#     echo "    "$x
-# done
-
-echo $reset
-
-# Listing the updated files
-linecount=1
-echo "Updated files:"$red
-for x in $updatedFiles; do
-    echo "  "$linecount" "$x
-    linecount=$((linecount+1))
-done
-
-echo $reset
-
-# Listing untracked files
-echo "Untracked files:"$red
-for x in $untrackedFiles; do
-    echo "  "$linecount" "$x
-    linecount=$((linecount+1))
-done
-
-echo $reset
+    for x in $untrackedFiles; do
+        fileArray=("${fileArray[@]}" $x)
+    done
 
 
-# Creating an array
-for x in $updatedFiles; do
-    fileArray=("${fileArray[@]}" $x)
-done
+    echo $reset
 
-for x in $untrackedFiles; do
-    fileArray=("${fileArray[@]}" $x)
-done
+    # Git add
+    for p in $*;
+    do
+        printf "Adding %s\n" "${fileArray[$(($p-1))]}"
+        git add ${fileArray[$(($p-1))]}
+    done;
 
+else
+    # No parameters just listing
+    
+    # Listing the updated files
+    linecount=1
+    if [ "$updatedFiles" ]
+    then
+        echo "Updated files:"$red
+        for x in $updatedFiles; do
+            echo "  "$linecount" "$x
+            linecount=$((linecount+1))
+        done
+        echo $reset
+    fi
 
-echo $reset
-
-# Git add
-for p in $*;
-do
-    printf "Adding %s\n" "${fileArray[$(($p-1))]}"
-    git add ${fileArray[$(($p-1))]}
-done;
+    # Listing untracked files
+    if [ "$untrackedFiles" ]
+    then
+        echo "Untracked files:"$red
+        for x in $untrackedFiles; do
+            echo "  "$linecount" "$x
+            linecount=$((linecount+1))
+        done
+        echo $reset
+    fi
+fi
