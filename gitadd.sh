@@ -27,7 +27,7 @@ echo $reset
 updated_files=$(git status --porcelain | grep '[M]' | awk '{ print $2 }')
 untracked_files=$(git status --porcelain | grep '?? ' | awk '{ print $2 }')
 
-git_root=$(git rev-parse --show-toplevel)
+git_root=$(git rev-parse --show-cdup)
 
 if [ "$*" ]
 then
@@ -48,8 +48,8 @@ then
     # Git add
     for p in $*;
     do
-        printf "Adding %s\n" "$git_root"/"${file_array[$(($p-1))]}"
-        git add $git_root"/"${file_array[$(($p-1))]}
+        printf "Adding %s\n" "$git_root${file_array[$(($p-1))]}"
+        git add $git_root${file_array[$(($p-1))]}
     done;
 
 else
@@ -61,7 +61,7 @@ else
     then
         echo "Updated files:"$red
         for x in $updated_files; do
-            echo "  "$linecount" "$git_root"/"$x
+            echo "  "$linecount" "$git_root$x
             linecount=$((linecount+1))
         done
         echo $reset
@@ -72,7 +72,7 @@ else
     then
         echo "Untracked files:"$red
         for x in $untracked_files; do
-            echo "  "$linecount" "$git_root"/"$x
+            echo "  "$linecount" "$git_root$x
             linecount=$((linecount+1))
         done
         echo $reset
