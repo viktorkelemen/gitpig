@@ -24,20 +24,22 @@ echo $reset
 
 # get the status
 # addedFiles=$(git status --porcelain | grep 'A  ' | awk '{ print $2 }')
-updatedFiles=$(git status --porcelain | grep '[M]' | awk '{ print $2 }')
-untrackedFiles=$(git status --porcelain | grep '?? ' | awk '{ print $2 }')
+updated_files=$(git status --porcelain | grep '[M]' | awk '{ print $2 }')
+untracked_files=$(git status --porcelain | grep '?? ' | awk '{ print $2 }')
+
+git_root=$(git rev-parse --show-toplevel)
 
 if [ "$*" ]
 then
     # there are parameters, we're preparing the git-add
-    
+
     # Creating an array
-    for x in $updatedFiles; do
-        fileArray=("${fileArray[@]}" $x)
+    for x in $updated_files; do
+        file_array=("${file_array[@]}" $x)
     done
 
-    for x in $untrackedFiles; do
-        fileArray=("${fileArray[@]}" $x)
+    for x in $untracked_files; do
+        file_array=("${file_array[@]}" $x)
     done
 
 
@@ -46,31 +48,31 @@ then
     # Git add
     for p in $*;
     do
-        printf "Adding %s\n" "${fileArray[$(($p-1))]}"
-        git add ${fileArray[$(($p-1))]}
+        printf "Adding %s\n" "$git_root"/"${file_array[$(($p-1))]}"
+        git add $git_root"/"${file_array[$(($p-1))]}
     done;
 
 else
     # No parameters just listing
-    
+
     # Listing the updated files
     linecount=1
-    if [ "$updatedFiles" ]
+    if [ "$updated_files" ]
     then
         echo "Updated files:"$red
-        for x in $updatedFiles; do
-            echo "  "$linecount" "$x
+        for x in $updated_files; do
+            echo "  "$linecount" "$git_root"/"$x
             linecount=$((linecount+1))
         done
         echo $reset
     fi
 
     # Listing untracked files
-    if [ "$untrackedFiles" ]
+    if [ "$untracked_files" ]
     then
         echo "Untracked files:"$red
-        for x in $untrackedFiles; do
-            echo "  "$linecount" "$x
+        for x in $untracked_files; do
+            echo "  "$linecount" "$git_root"/"$x
             linecount=$((linecount+1))
         done
         echo $reset
